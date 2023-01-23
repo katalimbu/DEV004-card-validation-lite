@@ -7,23 +7,91 @@
 </head>
 
 <body>
-  <input id="cardnumber"></input>
+  <input type='number' 
+  id="cardnumber" required  ></input>
   <button onclick="validate()">Validar</button>
   <div id="result"></div>
+  
   <script lang="javascript">
-    function validate() {
-      const valid = isValid(document.getElementById("cardnumber").value)
-      if (valid) {
-        // Show success in div#result
+    function validate() { 
+      let inputValue = document.getElementById("cardnumber").value
+            
+      if (inputValue == '') {
+        alert('campo requerido');
+        return;
+      } 
+
+      let valid = isValid(inputValue); 
+      // valid = true/false
+      if(valid == true){
+        alert('tarjeta valida')
+      } 
+      else{
+        alert('tarjeta invalida')
       }
-      else {
-        // Show error message in div#result
-      }
+
+
     }
 
-    function isValid(creditCardNumber){
+    function isValid(creditCardNumber) {
+    
+      // ej: creditCardNumber = '6666'
+      let array  = creditCardNumber.split('')
+      // array =['6','6','7','8']
+      let card = array;   
+      // card = ['6','6','7','8']
+      let cambio = card.reverse();
+      // cambio = ['8','7','6','6']
+      let multiready = []
+
+      for (let i = 0; i < cambio.length; i++){
+         if (i % 2 == 1) { 
+          let multiplicacion = cambio[i] * 2
+          multiready.push(multiplicacion)
+        }
+        else {
+          multiready.push(cambio[i])
+        }
+      }
+
+      // multiready = ['8',14,'6',12]  
+      var str = multiready.toString().split(',');
+      // str = ['8','14','6','12']  
+      let total = 0;
+
+      for (let i = 0; i < str.length; i++){
+        console.log('if',parseInt(str[i]) >= 10)
+      
+        if (parseInt(str[i]) >= 10) { 
+          let numero = str[i].split('');
+          let arrayEntero = numero.map( x => parseInt(x));
+          let suma = arrayEntero[0] + arrayEntero[1];
+          // suma = 5
+
+          console.log('suma', suma);
+          total = total + suma
+          console.log('total', total)
+
+        }
+        else {
+          console.log('str', str[i])
+          console.log('int', parseInt(str[i]))
+
+          total = total + parseInt(str[i])
+          console.log('else')
+        } 
+
+        console.log(total)
+      }
+
+      if ((total % 10) == 0) {
+        return true
+      }
+      else{
+        return false
+     }
       // is creditCardNumber valid?
-      return false
+    
     }
   </script>
 </body>
